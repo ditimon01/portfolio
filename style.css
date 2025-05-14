@@ -4,12 +4,13 @@
     box-sizing: border-box;
   }
 
-  body{
-    background-color: #0d0d0d;
+  body {
+    background-color:#1a1a1a;
+    overflow-x: hidden;
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: clamp(0.5rem, 4vw, 2.5rem);
     color: #00ffcc;
     margin-bottom: 0.5rem;
   }
@@ -31,6 +32,7 @@
     border-radius: 8px;
     box-shadow: 0 0 20px #00ffcc44;
     opacity: 0;
+    font-size: clamp(1rem, 5vw, 1.5rem);
   }
 
   .button-box{
@@ -61,23 +63,15 @@
   .highlight {
     color: #00ffcc;
   }
-  
-  .material-symbols-outlined {
-    
-    color: #00ffcc;
-    font-size: 1.5rem;
-    
-  }
 
   
   .capy-icon {
-    width: 55px;
+    width: 100px;
     height: auto;
     position: static;
-    margin-top: 1rem;
+    margin: 1rem;
     margin-left: 3rem;
-    cursor: pointer;
-    filter: invert(78%) sepia(56%) saturate(553%) hue-rotate(125deg); /* cor tipo #00ffcc */
+    
   }
 
   #underline{
@@ -91,24 +85,39 @@
   }
 
   #menu{
-    background-color: #1a1a1a;
+    background-color: #383737;
     position: sticky;
     top: 0;
     margin-top: 0;
     border-bottom: 0.5vh solid #00ffcc;
+    opacity: 0;
   }
 
   #conteudo{
+
     font-family: 'Fira Code', monospace;
     color: #00ffcc;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
+    max-width: 800px;
+    margin: 6rem 2rem 0 auto;
     padding: 2rem;
+    text-align: left;
+
   }
 
+  #background{
+    position: absolute;
+    z-index: -1;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/icones/capy.png');
+    background-size: 5%;
+    background-position: center;
+    opacity: 1;
+    transform: translateY(-15vh);
+    background-repeat: no-repeat;
+  }
 
   @keyframes piscar {
     0% {
@@ -122,9 +131,35 @@
     }
   }
 
+  @keyframes inicio {
+    from{ transform: translateX(40vh);}
+    to{transform: translateX(0);}
+  }
+
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes aparecer {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes background-animation {
+    from {
+      background-size: 5%;
+      background-position: center;
+      opacity: 1;
+      transform: translateY(-15vh);
+      
+    }
+    to {
+      background-size: 60%; 
+      background-position: left;
+      opacity: 0.4;
+      transform: translateY(0);
+    }
   }
 
   @media (max-width: 600px) {

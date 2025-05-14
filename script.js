@@ -131,10 +131,13 @@ async function mostrarBotoes() {
 
 
 const apresentacao = document.querySelector("#apresentacao");
+const menu = document.querySelector("#menu");
+const background = document.querySelector("#background");
 
 document.addEventListener("click",()=>{
-    apresentacao.style.animation = "fadeIn 2s ease-in-out"
-    apresentacao.style.opacity = 1;
+    background.style.animation = "background-animation 2s ease-in-out forwards";
+    menu.style.animation = "aparecer 2s ease-in-out forwards";
+    apresentacao.style.animation = "fadeIn 2s ease-in-out forwards";
     if(iniciado){
         pular = true;
     }
