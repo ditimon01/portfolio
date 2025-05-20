@@ -28,11 +28,11 @@
     border: 1px solid #00ffcc;
     padding: 1rem;
     width: 90%;
-    max-width: 600px;
+    max-width: 900px;
     border-radius: 8px;
     box-shadow: 0 0 20px #00ffcc44;
     opacity: 0;
-    font-size: clamp(1rem, 5vw, 1.5rem);
+    font-size: clamp(1rem, 5vw, 1.2rem);
   }
 
   .button-box{
@@ -44,21 +44,7 @@
     justify-content: center;
   }
 
-  .buttons {
-    display: inline;
-    background-color: #1a1a1a;
-    border: 1px solid #00ffff;
-    padding: 1rem;
-    max-width: 600px;
-    border-radius: 8px;
-    box-shadow: 0 0 20px #00ffcc44;
-    opacity: 0;
-  }
-
-  .buttons:hover{
-    transform: scale(1.05);
-    border-color: #00ffcc;
-  }
+  
 
   .highlight {
     color: #00ffcc;
@@ -167,3 +153,135 @@
     h1 { font-size: 2rem; }
     .terminal-box { font-size: 0.9rem; }
   }
+
+
+
+
+
+  #language-filter {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .lang-btn {
+    background: none;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .lang-btn:hover,
+  .lang-btn.active {
+    background-color: var(--accent);
+    color: #000;
+  }
+  
+  #verProjetos{
+    margin: 2rem;
+    font-size: 1rem;
+    background: none;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  #verProjetos:hover{
+    background-color:#00ffcc;
+    color:#000000
+  }
+
+  .projetos {
+    margin-top: 25%;
+  }
+
+  #projects {
+    
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 400px));
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .project-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--accent);
+    padding: 1rem;
+    border-radius: 8px;
+    transition: transform 0.2s;
+    min-height: 15vh;
+  }
+  
+  .project-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .project-title {
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .project-lang {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+  
+  .project-desc {
+    margin-top: 0.5rem;
+    color: #aaa;
+  }
+
+  a {
+    text-decoration: none;
+    color: #00ffcc;
+  }
+  
+  @media (max-width: 600px) {
+    h1 { font-size: 2rem; }
+  }
+
+  :root {
+    --bg-color: #0d0d0d;
+    --text-color: #00ffcc;
+    --accent: #00ffcc;
+    --card-bg: #1a1a1a;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+
+  /* Botões Sociais */
+#social-icons {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 10;
+}
+
+#social-icons a {
+  color: #00ffcc;
+  font-size: 1.8rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+#social-icons a:hover {
+  transform: scale(1.2);
+  color: #ffffff;
+}
