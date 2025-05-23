@@ -7,27 +7,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=code" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   </head>
   <body>
 
     <div id="menu">
       <img src="icones\capy.png" alt="Ícone de capivara" class="capy-icon" />
       <div id="social-icons">
-      <a href="https://www.linkedin.com/in/seuusuario" target="_blank" aria-label="LinkedIn">
+      <a href="https://www.linkedin.com/in/vinicius-azevedo-da-fonseca" target="_blank" aria-label="LinkedIn">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="https://www.instagram.com/seuusuario" target="_blank" aria-label="Instagram">
-        <i class="fab fa-instagram"></i>
+      <a href="mailto:viniciusdevlabs@gmail.com?subject=Contato%20Portfólio&body=Olá%20Vinicius,%20gostaria%20de%20falar%20sobre..." aria-label="email">
+        <i class="fa-solid fa-envelope"></i>
       </a>
       </div>
     </div>
     
-
     <div id="background"></div>
+
     <section id="conteudo">
       <div id="apresentacao">
         <h1>Olá, eu sou <span class="highlight">Vinícius Azevedo da Fonseca</span></h1>
         <h2>Estudante de Engenharia de Software | Desenvolvedor em formação</h2>
+        <section id = "sobre">
+          <h3>Sobre mim </h3>
+          <p>Sou estudante de Engenharia de Software, apaixonado por tecnologia e desenvolvimento de soluções criativas. Tenho experiência em desenvolvimento web, APIs e projetos que unem tecnologia e impacto social. Gosto de aprender constantemente, explorar novas linguagens e frameworks, além de me dedicar a projetos que fazem a diferença na vida das pessoas.</p>
+        </section>
         <button id="verProjetos">Ver Projetos</button>
       </div>
 
@@ -43,6 +48,18 @@
       <div id="projects"></div>
       </section>
   </body>
+
+  <form id="formulario" action="https://formspree.io/f/seuid" method="POST">
+    <label>
+      Seu Email:
+      <input type="email" name="email" required>
+    </label>
+    <label>
+      Mensagem:
+      <textarea name="message" required></textarea>
+    </label>
+    <button type="submit">Enviar</button>
+  </form>
 
   <script src="script.js"></script>
   <script src="https://kit.fontawesome.com/145aba2c49.js" crossorigin="anonymous"></script>

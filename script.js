@@ -38,7 +38,7 @@ async function criarLinha(conteudoTexto, container, under){
                     }
                     somClique.pause();
                     resolve();
-                }, 100);
+                }, 15);
                 return;
             }
 
@@ -55,7 +55,7 @@ async function criarLinha(conteudoTexto, container, under){
             }
              
             i++;
-            setTimeout(digitar, 100);
+            setTimeout(digitar, 15);
         }else{
             setTimeout(()=>{
                 if(under){
@@ -85,10 +85,10 @@ async function criarLinha(conteudoTexto, container, under){
         function removeUnderline(){
             div.removeChild(underline)
         }
-        setTimeout(removeUnderline, 700);
+        setTimeout(removeUnderline, 500);
     } 
 
-    setTimeout(digitar, 650);
+    setTimeout(digitar, 400);
     
     })}
 
@@ -125,19 +125,14 @@ async function preencherTerminal(){
 const menu = document.querySelector("#menu");
 const background = document.querySelector("#background");
 
-document.addEventListener("click",()=>{
+window.onload = ()=>{
     background.style.animation = "background-animation 2s ease-in-out forwards";
     menu.style.animation = "aparecer 2s ease-in-out forwards";
     apresentacao.style.animation = "fadeIn 2s ease-in-out forwards";
     if(iniciado){
         pular = true;
     }
-})
-
-
-document.addEventListener("click", ()=>{
-    
-});
+};
 
 
 
@@ -161,6 +156,18 @@ async function fetchRepos() {
   }
 }
 
+function getLanguageIcon(language) {
+  switch (language) {
+    case "JavaScript": return '<i class="fab fa-js"></i>';
+    case "HTML": return '<i class="fab fa-html5"></i>';
+    case "CSS": return '<i class="fab fa-css3-alt"></i>';
+    case "Python": return '<i class="fab fa-python"></i>';
+    case "Java": return '<i class="fab fa-java"></i>';
+    case "C++": return '<i class="fas fa-code"></i>';
+    default: return '<i class="fas fa-code"></i>';
+  }
+}
+
 function renderLanguages() {
   const languages = new Set(allRepos.map(repo => repo.language).filter(Boolean));
   const buttons = ['Todos', ...languages];
@@ -169,7 +176,7 @@ function renderLanguages() {
     const botao = document.createElement("button");
     botao.classList.add("lang-btn");
     if (lang === "Todos") botao.classList.add("active");
-    botao.innerText = lang;
+    botao.innerHTML = `${lang === "Todos" ? '<i class="fas fa-globe"></i>' : getLanguageIcon(lang)} ${lang}`;
     botao.addEventListener("click", () => {
       document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("active"));
       botao.classList.add("active");
