@@ -100,7 +100,7 @@
     margin: 0;
     width: 100%;
     height: 100%;
-    background-image: url('/icones/capy.png');
+    background-image: url('./icones/capy.png');
     background-size: 15vh;
     background-position: center;
     opacity: 1;
