@@ -3,6 +3,7 @@ let iniciado = false;
 let pular = false;
 const somClique = new Audio('sons/clique.mp3');
 
+
 async function criarLinha(conteudoTexto, container, under){
 
     return new Promise(resolve =>{
@@ -122,94 +123,167 @@ async function preencherTerminal(){
 
 
 
-const menu = document.querySelector("#menu");
-const background = document.querySelector("#background");
-
-window.onload = ()=>{
-    background.style.animation = "background-animation 2s ease-in-out forwards";
-    menu.style.animation = "aparecer 2s ease-in-out forwards";
-    apresentacao.style.animation = "fadeIn 2s ease-in-out forwards";
-    if(iniciado){
-        pular = true;
-    }
-};
-
 
 
 const username = "ditimon01";
 
 const projectsContainer = document.getElementById("projects");
 const filterContainer = document.getElementById("language-filter");
+const techIconsContainer = document.getElementById("icones-tecnologias");
 
 let allRepos = [];
+let allLanguages = new Set();
 let selectedLanguage = "Todos";
+
+
+const languageMap = {
+  "C++": "C++",
+  "C": "C",
+  "Shell": "Shell",
+  "HTML": "HTML",
+  "CSS": "CSS",
+  "JavaScript": "JavaScript",
+  "TypeScript": "TypeScript",
+  "Java": "Java",
+  "Python": "Python",
+  "PHP": "PHP"
+};
+
+function normalizarLinguagem(lang) {
+  return languageMap[lang] || "Outros";
+}
+
+
+const iconesSimples = {
+  JavaScript: '<i class="fab fa-js"></i>',
+  HTML: '<i class="fab fa-html5"></i>',
+  CSS: '<i class="fab fa-css3-alt"></i>',
+  Python: '<i class="fab fa-python"></i>',
+  Java: '<i class="fab fa-java"></i>',
+  "C++": '<i class="fas fa-code"></i>',
+  TypeScript: '<i class="fab fa-js"></i>',
+  Shell: '<i class="fas fa-terminal"></i>',
+  PHP: '<i class="fab fa-php"></i>',
+  default: '<i class="fas fa-code"></i>',
+  Outros: '<i class="fas fa-code"></i>'
+};
+
+const iconesColoridos = {
+  JavaScript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+  Python: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+  Java: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+  HTML: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+  CSS: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+  TypeScript: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+  Shell: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg",
+  PHP: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
+  "C": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
+  "Outros": './icones/code.png'
+};
+
+
+
+function getIconeSimples(linguagem) {
+  return iconesSimples[linguagem] || iconesSimples["default"];
+}
+
 
 async function fetchRepos() {
   try {
     const res = await fetch(`https://api.github.com/users/${username}/repos`);
-    const data = await res.json();
-    allRepos = data;
-    renderLanguages();
-    renderProjects("Todos");
+
+    if (!res.ok) throw new Error("Erro na API do GitHub");
+
+    const repositorio = await res.json();
+
+    const repositorioLinguagens = await Promise.all(repositorio.map(async (repositorio) => {
+      const langRes = await fetch(repositorio.languages_url);
+      const languages = await langRes.json();
+      let langList = Object.keys(languages);
+
+      if(langList.length === 0) {
+        langList = ["Outros"];
+      }
+
+      langList = langList.map(normalizarLinguagem);
+
+      langList.forEach(l => allLanguages.add(l));
+      return { ...repositorio, languages: langList };
+    }));
+
+    allRepos = repositorioLinguagens;
+
   } catch (error) {
     projectsContainer.innerHTML = "<p>Erro ao carregar projetos.</p>";
+    console.error(error);
   }
 }
 
-function getLanguageIcon(language) {
-  switch (language) {
-    case "JavaScript": return '<i class="fab fa-js"></i>';
-    case "HTML": return '<i class="fab fa-html5"></i>';
-    case "CSS": return '<i class="fab fa-css3-alt"></i>';
-    case "Python": return '<i class="fab fa-python"></i>';
-    case "Java": return '<i class="fab fa-java"></i>';
-    case "C++": return '<i class="fas fa-code"></i>';
-    default: return '<i class="fas fa-code"></i>';
-  }
-}
 
 function renderLanguages() {
-  const languages = new Set(allRepos.map(repo => repo.language).filter(Boolean));
-  const buttons = ['Todos', ...languages];
+  filterContainer.innerHTML = "";
+
+  const buttons = ['Todos', ...Array.from(allLanguages)];
 
   buttons.forEach(lang => {
+
     const botao = document.createElement("button");
     botao.classList.add("lang-btn");
     if (lang === "Todos") botao.classList.add("active");
-    botao.innerHTML = `${lang === "Todos" ? '<i class="fas fa-globe"></i>' : getLanguageIcon(lang)} ${lang}`;
+    botao.innerHTML = `${lang === "Todos" ? '<i class="fas fa-globe"></i>' : getIconeSimples(lang)} ${lang}`;
+
     botao.addEventListener("click", () => {
       document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("active"));
       botao.classList.add("active");
       selectedLanguage = lang;
       renderProjects(lang);
     });
+
     filterContainer.appendChild(botao);
   });
 }
 
+
+function renderTechIcons() {
+  techIconsContainer.innerHTML = '';
+
+  Array.from(allLanguages).forEach(lang => {
+    const img = document.createElement('img');
+    img.src = iconesColoridos[lang] || 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/code/code-original.svg';
+    img.alt = lang;
+    img.title = lang;
+    img.classList.add("tech-icon");
+    techIconsContainer.appendChild(img);
+  });
+}
+
+
 function renderProjects(lang) {
   projectsContainer.innerHTML = "";
+
   const filtered = lang === "Todos"
     ? allRepos
-    : allRepos.filter(repo => repo.language === lang);
+    : allRepos.filter(repo => repo.languages.includes(lang));
 
-  if (filtered.length === 0) {
-    projectsContainer.innerHTML = "<p>Nenhum projeto encontrado.</p>";
-    return;
-  }
+    if (filtered.length === 0) {
+      projectsContainer.innerHTML = "<p>Nenhum projeto encontrado.</p>";
+      return;
+    }
 
-  filtered.forEach((repo, index) => {
-    const card = document.createElement("div");
-    card.classList.add("project-card");
-    card.style.animationDelay = `${index * 0.1}s`;
+    filtered.forEach((repo, index) => {
+      const linguagens = (repo.languages || []).map(l => getIconeSimples(l)).join(' ');
 
-    card.innerHTML = `
-      <a href="https://github.com/${username}/${repo.name}" target="_blank">
-        <div class="project-title">${repo.name}</div>
-        <div class="project-lang">${repo.language || "Sem linguagem definida"}</div>
-        <div class="project-desc">${repo.description || "Sem descrição."}</div>
-      </a>
-    `;
+      const card = document.createElement("div");
+      card.classList.add("project-card");
+      card.style.animationDelay = `${index * 0.1}s`;
+
+      card.innerHTML = `
+        <a href="https://github.com/${username}/${repo.name}" target="_blank">
+          <div class="project-title">${repo.name}</div>
+          <div class="project-lang">${linguagens}</div>
+          <div class="project-desc">${repo.description || "Sem descrição."}</div>
+        </a>
+      `;
 
     projectsContainer.appendChild(card);
   });
@@ -217,13 +291,40 @@ function renderProjects(lang) {
   projectsContainer.scrollIntoView({ behavior: "smooth" });
 }
 
-let verProjetos = document.querySelector("#verProjetos");
+function renderTudo() {
+  renderLanguages();
+  renderProjects("Todos");
+}
+
+
+
+
+const menu = document.querySelector("#menu");
+const background = document.querySelector("#background");
+
+window.onload = async () => {
+  background.style.animation = "background-animation 2s ease-in-out forwards";
+  menu.style.animation = "aparecer 2s ease-in-out forwards";
+  apresentacao.style.animation = "fadeIn 2s ease-in-out forwards";
+
+  if(iniciado){
+    pular = true;
+  }
+
+  await fetchRepos();
+  renderTechIcons();
+}
+
+verProjetos = document.getElementById("verProjetos");
 
 verProjetos.addEventListener("click", async ()=>{
     verProjetos.remove();
     await preencherTerminal();
-    fetchRepos();
-})
+    renderTudo();
+});
+
+
+
 
 
 
